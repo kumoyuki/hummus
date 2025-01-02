@@ -1,4 +1,6 @@
-{-# LANGUAGE GADTs, GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE GADTs, GeneralizedNewtypeDeriving,
+                    StandaloneDeriving,
+                    FlexibleContexts, FlexibleInstances, UndecidableInstances  #-}
 
 -------------------------------------------------------------------------------
 -- |
@@ -48,7 +50,10 @@ newtype Prompt ans a = Prompt Int
 -- | The prompt generation monad. Represents the type of computations that
 -- make use of a supply of unique prompts.
 newtype P ans m a = P { unP :: StateT Int m a }
-    deriving (Functor, Monad, MonadTrans, MonadState Int, MonadReader r)
+    deriving (Functor, Applicative, Monad, MonadTrans, MonadState Int, MonadReader r)
+
+--deriving instance Applicative (P ans m) => Applicative m
+--deriving instance Monad (P ans m) => Monad m
 
 -- | Runs a computation that makes use of prompts, yielding a result in the
 -- underlying monad.

@@ -1,5 +1,7 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, RankNTypes, GADTs,
-             UndecidableInstances #-}
+             UndecidableInstances,
+             GeneralizedNewtypeDeriving #-}
+
 module Hummus.Types where
 
 import Control.Monad.CC
@@ -11,6 +13,8 @@ import qualified Data.HashTable.IO as H
 
 
 newtype VM ans a = VM { unVM :: CCT ans IO a }
+    deriving (Functor, Applicative)
+
 
 runVM :: (forall ans. VM ans a) -> IO a
 runVM v = runCCT (unVM v)
