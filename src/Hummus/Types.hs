@@ -1,13 +1,15 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, RankNTypes, GADTs,
              UndecidableInstances,
-             GeneralizedNewtypeDeriving #-}
+             GeneralizedNewtypeDeriving, StandaloneDeriving #-}
 
 module Hummus.Types where
 
+import Control.Monad.Catch
 import Control.Monad.CC
 import Control.Monad.CC.Dynvar
 import Control.Monad.CC.Prompt
 import Control.Monad.Trans
+import Control.Monad.Fail
 import Data.IORef
 import qualified Data.HashTable.IO as H
 
@@ -23,6 +25,11 @@ instance Monad (VM ans) where
   return = VM . return
   x >>= y = VM (unVM x >>= unVM . y)
 
+instance MonadFail (VM ans) where
+    fail = Control.Monad.Fail.fail
+
+--deriving instance MonadMask (VM ans) => MonadMask (VM ans)
+         
 instance MonadIO (VM ans) where
   liftIO x = VM (liftIO x)
 

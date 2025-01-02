@@ -35,6 +35,7 @@ executable hummus
     attoparsec,
     base,
     bytestring,
+    exceptions,
     filepath,
     haskeline,
     hashtables,

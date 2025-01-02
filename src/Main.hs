@@ -2,6 +2,7 @@
 module Main where
 
 import Control.Monad.Trans
+import Control.Monad.Catch
 import Data.Attoparsec
 import Prelude hiding (catch)
 import System.Console.Haskeline
@@ -41,10 +42,10 @@ main = do
     return ()
 
 -- TODO: super hacky
-instance MonadException (VM ans) where
-  catch x _ = x -- TODO
-  block x = x -- TODO
-  unblock x = x -- TODO
+--instance Control.Monad.Catch.MonadMask (VM ans) where
+--  catch x _ = x -- TODO
+--  block x = x -- TODO
+--  unblock x = x -- TODO
 
 repl :: String -> Value ans -> InputT (VM ans) ()
 repl p e = do
